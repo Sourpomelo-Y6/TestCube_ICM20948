@@ -1,10 +1,18 @@
-# TestCube_M5StackFire
-IMU-powered 3D Cube
+# TestCube_M5Core2
+ICM20948-powered 3D Cube
 
-IMUで動かす3Dキューブ
+ICM20948で動かす3Dキューブ
 
 <!--[Sample](Sample.jpg)-->
+[Sample Photo](https://pbs.twimg.com/media/Etm-jJUVcAAvrxh?format=jpg&name=large)
 
+* Connection
+
+    ICM20948 - M5StackCore2</br>
+    MOSI - G23</br>
+    MISO - G38</br>
+    SCK  - G18</br>
+    CS   - G27</br>
 
 * Original Source</br>
 M5StickC 3D COLOR CUBE</br>
@@ -13,8 +21,6 @@ https://macsbug.wordpress.com/2019/05/20/m5stickc-3d-color-cube/
  ~~It took about 12ms to depict because I removed the speeding up part from the original page above. If you use the original source page as it is, you can make it less than 10ms.~~
 
 ~~上記の元ネタページから高速化部分を削除しているので、描写に約12msかかっている。元ネタページのものをそのまま利用すれば10ms以下にできる。~~
-
-
 
 The reason why I did that is because it behaved strangely when I just adapted the IMU pitch and roll angle to the original source material.
 
@@ -33,14 +39,19 @@ However, the real cause seems to be the point where the yaw angle is zeroed when
 LovyanGFX</br>
 https://github.com/lovyan03/LovyanGFX
 
+Teensy-ICM-20948</br> 
+https://github.com/ZaneL/Teensy-ICM-20948
+
+File "Teensy-ICM-20948.cpp"
+add 
+~~~
+    <M5Core2.h>
+~~~
 
 ## Reference
 
 M5StickC 3D COLOR CUBE</br>
 https://macsbug.wordpress.com/2019/05/20/m5stickc-3d-color-cube/
-
-MadgwickFilter (GNU Lesser GPL)</br>
-https://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 
 Reference code by Lovyan<br/>
 Lovyan氏による参考コード<br/>
