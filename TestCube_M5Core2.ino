@@ -30,7 +30,7 @@ static LGFX_Sprite sprite[2];
 //#pragma GCC optimize ("O3")
 struct point3df{ float x, y, z;};
 struct surface{ uint8_t p[4]; int16_t z;};
-#define U  70         // size of cube
+#define U  140         // size of cube
  
 struct point3df cubef[8] ={ // cube edge length is 2*U
   { -U, -U,  U },
@@ -176,8 +176,8 @@ void setup(void){
 
   //ws = lcd.width();
   //hs = lcd.height();
-  ws = 160;
-  hs = 80;
+  ws = 240;
+  hs = 240;
 
   sprite[0].createSprite(ws,hs);
   sprite[1].createSprite(ws,hs);
@@ -253,7 +253,8 @@ void loop(void)
   sprite[flip].clear();
   for (int i = 0; i < 8; i++)
   {
-    sprite[flip].drawRect( (int)cubef2[i].x-2, (int)cubef2[i].y-2, 4, 4 , 0xF000);
+    //sprite[flip].drawRect( (int)cubef2[i].x-2, (int)cubef2[i].y-2, 4, 4 , 0xF000);
+    sprite[flip].drawRect( (int)cubef2[i].y-2, (int)cubef2[i].x-2, 4, 4 , 0xF000);
     //Serial.printf("%d,%f,%f,\r\n",i,cubef2[i].x, cubef2[i].y); 
   }
 
@@ -265,12 +266,18 @@ void loop(void)
                                   ((((ii + 1) >> 1) & 1) * 255),
                                   ((((ii + 1) >> 2) & 1) * 255)
                    )             );
-    sprite[flip].fillTriangle(    cubef2[s[ii].p[0]].x, cubef2[s[ii].p[0]].y,
-                            cubef2[s[ii].p[1]].x, cubef2[s[ii].p[1]].y,
-                            cubef2[s[ii].p[2]].x, cubef2[s[ii].p[2]].y);
-    sprite[flip].fillTriangle(    cubef2[s[ii].p[2]].x, cubef2[s[ii].p[2]].y,
-                            cubef2[s[ii].p[3]].x, cubef2[s[ii].p[3]].y,
-                            cubef2[s[ii].p[0]].x, cubef2[s[ii].p[0]].y);
+//    sprite[flip].fillTriangle(    cubef2[s[ii].p[0]].x, cubef2[s[ii].p[0]].y,
+//                            cubef2[s[ii].p[1]].x, cubef2[s[ii].p[1]].y,
+//                            cubef2[s[ii].p[2]].x, cubef2[s[ii].p[2]].y);
+//    sprite[flip].fillTriangle(    cubef2[s[ii].p[2]].x, cubef2[s[ii].p[2]].y,
+//                            cubef2[s[ii].p[3]].x, cubef2[s[ii].p[3]].y,
+//                            cubef2[s[ii].p[0]].x, cubef2[s[ii].p[0]].y);
+      sprite[flip].fillTriangle(    cubef2[s[ii].p[0]].y, cubef2[s[ii].p[0]].x,
+                            cubef2[s[ii].p[1]].y, cubef2[s[ii].p[1]].x,
+                            cubef2[s[ii].p[2]].y, cubef2[s[ii].p[2]].x);
+      sprite[flip].fillTriangle(    cubef2[s[ii].p[2]].y, cubef2[s[ii].p[2]].x,
+                            cubef2[s[ii].p[3]].y, cubef2[s[ii].p[3]].x,
+                            cubef2[s[ii].p[0]].y, cubef2[s[ii].p[0]].x);
   }
   
   int show_time = millis() - pre_show_time;
