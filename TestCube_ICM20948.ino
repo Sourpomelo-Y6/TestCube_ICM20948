@@ -67,7 +67,6 @@ float roll  = 0.0F;
 float yaw   = 0.0F;
 
 bool flip;
-uint32_t pre_calc_time = 0;
 uint32_t pre_show_time = 0;
 unsigned int pre_time = 0;
 
@@ -150,15 +149,14 @@ void rotate_cube_quaternion(float a, float b, float c, float d)
             + z_y * cubef[i].y
             + z_z * cubef[i].z;
 
-    cubef2[i].x = (x * DistanceCamera) / (z + DistanceCamera + DistanceScreen) + (ws>>1);
-    cubef2[i].y = (y * DistanceCamera) / (z + DistanceCamera + DistanceScreen) + (hs>>1);
+    cubef2[i].x = (x * DistanceCamera) / (z + DistanceCamera + DistanceScreen) + (hs>>1);
+    cubef2[i].y = (y * DistanceCamera) / (z + DistanceCamera + DistanceScreen) + (ws>>1);
     cubef2[i].z = z;
   }
 }
 
 void setup(void){ 
   M5.begin();
-  //delay(5000);
 
   icm20948.init(icmSettings);
 
@@ -178,7 +176,7 @@ void setup(void){
   //hs = lcd.height();
   ws = 240;
   hs = 240;
-
+  
   sprite[0].createSprite(ws,hs);
   sprite[1].createSprite(ws,hs);
   lcd.startWrite();
@@ -195,7 +193,6 @@ float smoothMove(float dst, float src)
 
 void loop(void)
 {
-  int calc_time = millis() - pre_calc_time;
   char sensor_string_buff[128];
   float quat_w, quat_x, quat_y, quat_z;
   icm20948.task();
@@ -206,7 +203,6 @@ void loop(void)
     icm20948.readQuatData(&quat_w, &quat_x, &quat_y, &quat_z);
     sprintf(sensor_string_buff, "{\"quat_w\":%f, \"quat_x\":%f, \"quat_y\":%f, \"quat_z\":%f}", quat_w, quat_x, quat_y, quat_z);
     Serial.println(sensor_string_buff);
-    pre_calc_time = millis();
   }
 
   //pitch = smoothMove(filter->getPitch(), pitch);
@@ -284,11 +280,6 @@ void loop(void)
   pre_show_time = millis();
   sprite[flip].setCursor(0, 50);
   sprite[flip].printf("%5d",show_time);
-
-  if (calc_time >= 9){
-    sprite[flip].setCursor(0, 60);
-    sprite[flip].printf("%5d",calc_time);
-  }
   
   sprite[flip].pushSprite(&lcd, 0, 0);
   lcd.endWrite();
