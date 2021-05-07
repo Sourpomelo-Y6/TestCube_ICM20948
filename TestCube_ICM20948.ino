@@ -62,9 +62,9 @@ float gyroX = 0.0F;
 float gyroY = 0.0F;
 float gyroZ = 0.0F;
 
-float pitch = 0.0F;
-float roll  = 0.0F;
-float yaw   = 0.0F;
+double pitch = 0.0F;
+double roll  = 0.0F;
+double yaw   = 0.0F;
 
 bool flip;
 uint32_t pre_show_time = 0;
@@ -191,6 +191,25 @@ float smoothMove(float dst, float src)
   return (dst + src * 19.0) / 20.0;
 }
 
+//https://www.kazetest.com/vcmemo/quaternion/quaternion.htm
+void QuaternionToEulerAngles(double q0, double q1, double q2, double q3,
+                             double& roll, double& pitch, double& yaw)
+{
+    double q0q0 = q0 * q0;
+    double q0q1 = q0 * q1;
+    double q0q2 = q0 * q2;
+    double q0q3 = q0 * q3;
+    double q1q1 = q1 * q1;
+    double q1q2 = q1 * q2;
+    double q1q3 = q1 * q3;
+    double q2q2 = q2 * q2;
+    double q2q3 = q2 * q3;
+    double q3q3 = q3 * q3;
+    roll = atan2(2.0 * (q2q3 + q0q1), q0q0 - q1q1 - q2q2 + q3q3);
+    pitch = asin(2.0 * (q0q2 - q1q3));
+    yaw = atan2(2.0 * (q1q2 + q0q3), q0q0 + q1q1 - q2q2 - q3q3);
+}
+
 void loop(void)
 {
   char sensor_string_buff[128];
@@ -279,7 +298,15 @@ void loop(void)
   int show_time = millis() - pre_show_time;
   pre_show_time = millis();
   sprite[flip].setCursor(0, 50);
-  sprite[flip].printf("%5d",show_time);
+  sprite[flip].printf("%5d\n",show_time);
+
+  QuaternionToEulerAngles((double)quat_w, (double)quat_x, (double)quat_y, (double)quat_z, roll, pitch, yaw);
+  sprite[flip].setCursor(0, 70);
+  sprite[flip].printf("%3.2f\n",roll*180.0/PI);
+  sprite[flip].setCursor(0, 90);
+  sprite[flip].printf("%3.2f\n",pitch*180.0/PI);
+  sprite[flip].setCursor(0, 110);
+  sprite[flip].printf("%3.2f\n",yaw*180.0/PI);
   
   sprite[flip].pushSprite(&lcd, 0, 0);
   lcd.endWrite();
