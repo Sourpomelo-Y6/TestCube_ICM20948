@@ -10,6 +10,7 @@ TeensyICM20948 icm20948;
 TeensyICM20948Settings icmSettings =
 {
   .cs_pin = 27,                  // SPI chip select pin
+  .spi_speed = 7000000,           // SPI clock speed in Hz, max speed is 7MHz
   .mode = 1,                     // 0 = low power mode, 1 = high performance mode
   .enable_gyroscope = false,      // Enables gyroscope output
   .enable_accelerometer = false,  // Enables accelerometer output
@@ -174,8 +175,8 @@ void setup(void){
 
   //ws = lcd.width();
   //hs = lcd.height();
-  ws = 240;
-  hs = 240;
+  ws = 160;
+  hs = 160;
   
   sprite[0].createSprite(ws,hs);
   sprite[1].createSprite(ws,hs);
