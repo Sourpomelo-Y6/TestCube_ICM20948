@@ -37,7 +37,7 @@ https://github.com/ZaneL/Teensy-ICM-20948
 File "Teensy-ICM-20948.cpp"
 add 
 ~~~c
-    <M5Core2.h>
+#include <M5Core2.h>
 ~~~
 
 ## Reference
