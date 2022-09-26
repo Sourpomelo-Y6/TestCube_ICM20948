@@ -10,7 +10,7 @@ TeensyICM20948 icm20948;
 TeensyICM20948Settings icmSettings =
 {
   .cs_pin = 27,                  // SPI chip select pin
-  .spi_speed = 7000000,           // SPI clock speed in Hz, max speed is 7MHz
+  .spi_speed = 1000000,           // SPI clock speed in Hz, max speed is 7MHz
   .mode = 1,                     // 0 = low power mode, 1 = high performance mode
   .enable_gyroscope = false,      // Enables gyroscope output
   .enable_accelerometer = false,  // Enables accelerometer output
@@ -31,7 +31,7 @@ static LGFX_Sprite sprite[2];
 //#pragma GCC optimize ("O3")
 struct point3df{ float x, y, z;};
 struct surface{ uint8_t p[4]; int16_t z;};
-#define U  140         // size of cube
+#define U  100         // size of cube
  
 struct point3df cubef[8] ={ // cube edge length is 2*U
   { -U, -U,  U },
@@ -175,8 +175,8 @@ void setup(void){
 
   //ws = lcd.width();
   //hs = lcd.height();
-  ws = 160;
-  hs = 160;
+  ws = 200;
+  hs = 200;
   
   sprite[0].createSprite(ws,hs);
   sprite[1].createSprite(ws,hs);
